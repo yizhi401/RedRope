@@ -1,0 +1,22 @@
+{
+    "pages":[
+        "pages/index/index",
+        "pages/chat/chat"
+    ],
+    "window": {
+      "navigationBarBackgroundColor": "#000000",
+      "navigationBarTextStyle": "white",
+      "navigationBarTitleText": "小红线",
+      "backgroundColor": "#eeeeee",
+      "backgroundTextStyle": "light"
+    },
+    "tabBar": {
+      "list": [{
+        "pagePath": "pages/index/index",
+        "text": "首页"
+        },{
+        "pagePath": "pages/chat/chat",
+        "text": "聊天"
+        }]
+    }
+}
