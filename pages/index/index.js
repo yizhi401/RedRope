@@ -1,4 +1,7 @@
-var app = getApp()
+var app = getApp();
+
+var userId = 0;
+
 Page({
     data:{
         motto: 'Hello Foolish WeChat App',
@@ -12,8 +15,9 @@ Page({
     },
 
     findPartner: function(){
+        userId++;
         wx.request({
-          url: 'http://192.168.1.108:8000',
+          url: 'http://192.168.1.108:4000/match/'+ userId +'/male',
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -27,12 +31,24 @@ Page({
             console.log('complete')
           }
         })
-        // console.log('find partner called!');
-        // var xhr = new XMLHttpRequest();
-        // xhr.open('GET','http://192.168.1.108:8000',true);
-        // xhr.send(null);
-        // xhr.addEventListener('readystatechange',processRequest(xhr),false)
-        //connect to server and find a partner
+    },
+
+    getAnother: function(){
+        wx.request({
+          url: 'http://192.168.1.108:4000/getAnotherHalf/' + userId,
+          data: {},
+          method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+          // header: {}, // 设置请求的 header
+          success: function(res){
+            console.log(res);
+          },
+          fail: function() {
+            console.log('failed')
+          },
+          complete: function() {
+            console.log('complete')
+          }
+        })
     },
 
     processRequest: function(xhr){
