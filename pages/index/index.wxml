@@ -1,21 +1,25 @@
 <view class="container">
 
     <view bindtap="bindViewTap" class="userinfo">
-        <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"/>
-        <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        <!--<image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"/>-->
+        <text class="userinfo-nickname">你好，{{userInfo.nickName}}</text>
     </view>
+
+    <view style="height: 25px;"></view>
 
     <image class="find-partner" src="../../resources/icon.jpg" background-size="cover"/>
 
-    <button type="default" size="{{defaultSize}}" loading="{{loading}}" plain="{{plain}}" 
-    disabled="{{disabled}}" bindtap="findPartner" hover-class="other-button-hover">FindPartner</button>
+    <view style="height: 100px;"></view>
+    <button type="primary" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
+    disabled="{{disabled}}" bindtap="findPartner" hover-class="other-button-hover">发起配对</button>
 
-    <button type="default" size="{{defaultSize}}" loading="{{loading}}" plain="{{plain}}" 
-    disabled="{{disabled}}" bindtap="getAnother" hover-class="other-button-hover">GetAnother</button>
+    <view style="height: 10px;"></view>
 
-    <text class="result">show result here</text>
+    <button type="default" size="default" loading="{{loading}}" plain="{{plain}}" 
+    disabled="{{disabled}}" bindtap="getAnother" hover-class="other-button-hover">进行轮询</button>
 
-    <view class="usermotto">
+    <!--<text class="result">show result here</text>-->
+    <!--<view class="usermotto">
         <text class="user-motto">{{motto}}</text>
-    </view>
+    </view>-->
 </view>

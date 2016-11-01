@@ -4,7 +4,7 @@
         "pages/chat/chat"
     ],
     "window": {
-      "navigationBarBackgroundColor": "#000000",
+      "navigationBarBackgroundColor": "#EB665F",
       "navigationBarTextStyle": "white",
       "navigationBarTitleText": "小红线",
       "backgroundColor": "#eeeeee",
@@ -16,7 +16,7 @@
         "text": "首页"
         },{
         "pagePath": "pages/chat/chat",
-        "text": "聊天"
+        "text": "当前聊天"
         }]
     }
 }

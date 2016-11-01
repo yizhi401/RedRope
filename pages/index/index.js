@@ -1,6 +1,6 @@
 var app = getApp();
 
-var userId = 0;
+var userId = 100;
 
 Page({
     data:{
@@ -17,7 +17,7 @@ Page({
     findPartner: function(){
         userId++;
         wx.request({
-          url: 'http://192.168.1.108:4000/match/'+ userId +'/male',
+          url: 'http://192.168.1.108:4000/match/'+ userId +'/female',
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -67,5 +67,29 @@ Page({
                 userInfo:userInfo
             })
         })
+
+        // 与服务器建立 socket 连接
+        wx.connectSocket({
+          url: "ws://192.168.1.108:4000",
+        })
+
+        // 监听
+        wx.onSocketOpen(function() {
+          console.log('WebSocket 连接已打开！')
+
+          wx.sendSocketMessage({
+            data: 'connect'
+          })
+        })
+
+        //监听WebSocket接受到服务器的消息事件
+        wx.onSocketMessage(function(data) {
+          console.log(data)
+        })
+
+        wx.onSocketClose(function() {
+          console.log('WebSocket连接已关闭！')
+        })
+
     }
 })
