@@ -73,12 +73,13 @@ Page({
           url: "ws://192.168.1.108:4000",
         })
 
-        // 监听
+        // 监听 socket 建立成功连接后的回调  
         wx.onSocketOpen(function() {
           console.log('WebSocket 连接已打开！')
 
+          // 发送当前用户的 ID 进行注册
           wx.sendSocketMessage({
-            data: 'connect'
+            data: '2'
           })
         })
 
@@ -87,6 +88,7 @@ Page({
           console.log(data)
         })
 
+        // 监听 socket 关闭连接后的回调 
         wx.onSocketClose(function() {
           console.log('WebSocket连接已关闭！')
         })
