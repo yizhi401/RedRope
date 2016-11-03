@@ -24,6 +24,8 @@ App({
         }
     },
     globalData:{
-        userInfo: null
+        userInfo: null,
+        ip:"http://"+"192.168.1.120"+":4000",
+        wsip:"ws://"+"192.168.1.120"+":4000"
     }
 })

@@ -51,6 +51,12 @@ Page({
         })
     },
 
+    gotoChat: function(){
+        wx.navigateTo({
+          url: '../chat/chat?id=2&name=haha',
+        })
+    },
+
     processRequest: function(xhr){
         if(xhr.readyState == 4 && xhr.status ==200){
             //xhr.responseText

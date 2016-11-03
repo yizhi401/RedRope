@@ -14,9 +14,6 @@
       "list": [{
         "pagePath": "pages/index/index",
         "text": "首页"
-        },{
-        "pagePath": "pages/chat/chat",
-        "text": "当前聊天"
         }]
     }
 }

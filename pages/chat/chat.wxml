@@ -1,0 +1,46 @@
+<scroll-view scroll-y="true" scroll-top="100000000000000000" style="height:90%;background:#eee" animation="{{animation_2}}">
+    <view wx:for="{{message}}" wx:for-item="i">
+        <view class="padding clearfix" wx:if="{{i.me}}">
+            <image class="right-Avatar padding_half" src="{{userInfo.avatarUrl}}"></image>
+            <view class="right-Triangle"></view>
+            <view class="right-message padding_half">
+                <text wx:if="{{i.text}}">{{i.text}}</text>
+                <image wx:if="{{i.imgList}}" style="max-width:150px;max-height:120px" src="{{i.imgList}}"></image>
+            </view>
+        </view>
+        <view class="padding clearfix" wx:if="{{!i.me}}">
+            <image class="left-Avatar padding_half" src="{{i.img}}"></image>
+            <view class="left-Triangle"></view>
+            <view class="left-message padding_half">
+                <text>{{i.text}}</text>
+            </view>
+        </view>
+    </view>
+    <view class="weui-icon_success"></view>
+</scroll-view>
+
+<view class="rr-row" style="height:10%;">
+    <view class="rr-row-66 padding">
+        <input placeholder="请输入消息" />
+    </view>
+    <button type="default" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
+    disabled="{{disabled}}" bindtap="elseBtn" hover-class="other-button-hover">+</button>
+    <button type="primary" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
+    disabled="{{disabled}}" bindtap="sendMessage" hover-class="other-button-hover">发送消息</button>
+</view>
+
+
+
+<view id="elsePanel" animation="{{animation}}">
+    <view class="rr-row">
+        <view class="rr-col-33" bindtap="chooseImg"><view class="text-center" style="line-height:50px">图片</view></view>
+        <view class="rr-col-33" bindtap="getlocat"><view class="text-center" style="line-height:50px">位置</view></view>
+        <view class="rr-col-33" bindtap="stopvoice"><view class="text-center" style="line-height:50px">test</view></view>
+        
+    </view>
+    <view class="rr-row">
+        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
+        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
+        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
+    </view>
+</view>
