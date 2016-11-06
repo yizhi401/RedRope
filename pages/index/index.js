@@ -14,10 +14,11 @@ Page({
         wx.showToast({
           title:'正在匹配中',
           icon:'loading',
-          duration:600000
+          duration:60000
         });
 
         var gender = _self.data.userInfo.gender == 1? 'male':'female';
+        userId = Math.floor(Math.random()*1000);
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
         console.log(_url);
 
@@ -28,7 +29,7 @@ Page({
           success: function(res){
             //request mathing succeeded, keep asking the server whom we got
             console.log(res);
-            if(res.data == null){
+            if(res.data == null || res.data == "null"){
               startPolling();
             }else{
               wx.hideToast();
@@ -51,17 +52,17 @@ Page({
           }else{
             pollCount++;
             console.log('tried time = ' + pollCount)
+            var _url = app.globalData.ip+ '/getAnotherHalf/' + userId;
             wx.request({
-              url: app.globalData.ip+ '/getAnotherHalf/' + userId,
+              url: _url,
               data: {},
               method: 'GET',
               success: function(res){
                 console.log(res);
-                if(res.data == null){
+                if(res.data == "null"){
                   console.log('failed to find partner!')
                   //failed to get a partner, try again after 1s
                   setTimeout(startPolling,1000);                  
-
                 }else{
                   //find a partner successfully,go chating!
                   console.log('find a partner: ' + res.data);
