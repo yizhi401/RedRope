@@ -17,7 +17,7 @@ Page({
     findPartner: function(){
         userId++;
         wx.request({
-          url: 'http://192.168.1.108:4000/match/'+ userId +'/female',
+          url: 'http://redrope.cc/match/'+ userId +'/female',
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -25,17 +25,17 @@ Page({
             console.log(res);
           },
           fail: function() {
-            console.log('failed')
+            console.log('findPartner failed')
           },
           complete: function() {
-            console.log('complete')
+            console.log('findPartner complete')
           }
         })
     },
 
     getAnother: function(){
         wx.request({
-          url: 'http://192.168.1.108:4000/getAnotherHalf/' + userId,
+          url: 'http://redrope.cc:4000/getAnotherHalf/' + userId,
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -43,10 +43,10 @@ Page({
             console.log(res);
           },
           fail: function() {
-            console.log('failed')
+            console.log('getAnother failed')
           },
           complete: function() {
-            console.log('complete')
+            console.log('getAnother complete')
           }
         })
     },
@@ -76,7 +76,7 @@ Page({
 
         // 与服务器建立 socket 连接
         wx.connectSocket({
-          url: "ws://192.168.1.108:4000",
+          url: "ws://redrope.cc:4000",
         })
 
         // 监听 socket 建立成功连接后的回调  
@@ -85,7 +85,7 @@ Page({
 
           // 发送当前用户的 ID 进行注册
           wx.sendSocketMessage({
-            data: '2'
+            data: '1'
           })
         })
 

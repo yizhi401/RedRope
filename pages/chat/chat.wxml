@@ -21,7 +21,7 @@
 
 <view class="rr-row" style="height:10%;">
     <view class="rr-row-66 padding">
-        <input placeholder="请输入消息" />
+        <input bindinput="bindKeyInput" placeholder="请输入消息" />
     </view>
     <button type="default" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
     disabled="{{disabled}}" bindtap="elseBtn" hover-class="other-button-hover">+</button>
