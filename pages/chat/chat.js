@@ -1,5 +1,6 @@
 var app = getApp()
 var getData = require('../../utils/util.js')
+var textInput = ''
 
 Page({
   data:{
@@ -34,38 +35,38 @@ Page({
   },
 
   sendMessage:function(message){
-    console.log("sending message to server" + message)
-    // 发送当前用户的 ID 进行注册
-    var display2 = {partner:'1',content:'hello'};
-    var jsondata = JSON.stringify(display2);
+    // console.log("sending message to server" + message)
+    // // 发送当前用户的 ID 进行注册
+    // var display2 = {partner:'2',content:'hello taichen'};
+    // var jsondata = JSON.stringify(display2);
+
+    // console.log( JSON.stringify(display2) );
+    // wx.sendSocketMessage({
+    //     data: jsondata,
+    //     success: function(res){
+    //         console.log("success:"+res)
+    //     },
+    //     fail: function(){
+    //         console.log("failed!")
+    //     },
+    // })
     var _self = this;
-    console.log(JSON.stringify(display2) );
-
-    wx.sendSocketMessage({
-        data: jsondata,
-        success: function(res){
-            console.log("success:"+res)
-            var t = _self.data.message;
-            t.push({
-              text:"succeeded",
-              me:true
-            });
-        },
-        fail: function(){
-            console.log("failed!")
-            var t = _self.data.message;
-            t.push({
-              text:"failed",
-              me:true
-            });
-
-        },
+    var t = _self.data.message;
+    t.push({
+      img:_self.data.userInfo.avatarUrl,
+      text:this.textInput,
+      me:true
     })
+    _self.setData({
+          message:t
+    })
+    console.log(this.textInput)
   },
-  
 
+  bindKeyInput: function(e) {
+    this.textInput = e.detail.value
+  },
   elseBtn:function(){
-    // console.log(e);
     var _self = this;
     if(_self.data.tap=="tapOff"){
       _self.animation_2.height("55%").step();

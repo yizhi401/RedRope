@@ -25,10 +25,10 @@ Page({
             console.log(res);
           },
           fail: function() {
-            console.log('failed')
+            console.log('findPartner failed')
           },
           complete: function() {
-            console.log('complete')
+            console.log('findPartner complete')
           }
         })
     },
@@ -43,10 +43,10 @@ Page({
             console.log(res);
           },
           fail: function() {
-            console.log('failed')
+            console.log('getAnother failed')
           },
           complete: function() {
-            console.log('complete')
+            console.log('getAnother complete')
           }
         })
     },
@@ -85,7 +85,7 @@ Page({
 
           // 发送当前用户的 ID 进行注册
           wx.sendSocketMessage({
-            data: '2'
+            data: '1'
           })
         })
 
