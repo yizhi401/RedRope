@@ -1,6 +1,6 @@
 var app = getApp();
 
-var userId = 100;
+var userId = Math.floor(Math.random()*1000);
 
 Page({
 
@@ -17,6 +17,26 @@ Page({
           duration:600000
         });
 
+        var gender = _self.data.userInfo.gender == 1? 'male':'female';
+        var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
+        console.log(_url);
+
+        wx.request({
+          url: _url,
+          data: {},
+          method: 'GET',
+          success: function(res){
+            //request mathing succeeded, keep asking the server whom we got
+            console.log(res);
+            if(res.data == null){
+              startPolling();
+            }else{
+              wx.hideToast();
+              gotoChat();
+            }
+          }
+        })
+
        var gotoChat = function (res){
             wx.navigateTo({
               url: '../chat/chat?name='+'haha',
@@ -30,44 +50,30 @@ Page({
             wx.hideToast();
           }else{
             pollCount++;
+            console.log('tried time = ' + pollCount)
             wx.request({
               url: app.globalData.ip+ '/getAnotherHalf/' + userId,
               data: {},
               method: 'GET',
               success: function(res){
-                //find a partner successfully,go chating!
-                wx.hideToast();
                 console.log(res);
-                gotoChat();
-              },
-              fail: function() {
-                //failed to get a partner, try again after 1s
-                setTimeout(startPolling,1000);
+                if(res.data == null){
+                  console.log('failed to find partner!')
+                  //failed to get a partner, try again after 1s
+                  setTimeout(startPolling,1000);                  
+
+                }else{
+                  //find a partner successfully,go chating!
+                  console.log('find a partner: ' + res.data);
+                  wx.hideToast();
+                  // gotoChat();
+
+                }
               }
             })
           }
         }
 
-        var partnerGender = _self.data.userInfo.gender == 1? 'femal':'male';
-        var _url = app.globalData.ip + '/match/'+ _self.data.userInfo.nickName + '/' + partnerGender;
-        console.log(_url);
-        
-        wx.request({
-          url: _url,
-          data: {},
-          method: 'GET',
-          success: function(res){
-            //request mathing succeeded, keep asking the server whom we got
-            console.log(res);
-            startPolling();
-          },
-          fail: function() {
-            console.log('findPartner failed')
-          },
-          complete: function() {
-            console.log('findPartner complete')
-          }
-        })
     },
 
     getAnother: function(){
