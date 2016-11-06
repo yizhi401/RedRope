@@ -25,7 +25,7 @@ App({
     },
     globalData:{
         userInfo: null,
-        ip:"http://"+"192.168.1.120"+":4000",
-        wsip:"ws://"+"192.168.1.120"+":4000"
+        ip:"https://"+"redrope.cc",
+        wsip:"wss://"+"redrope.cc"
     }
 })

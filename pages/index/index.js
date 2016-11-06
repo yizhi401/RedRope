@@ -17,7 +17,7 @@ Page({
     findPartner: function(){
         userId++;
         wx.request({
-          url: 'http://192.168.1.108:4000/match/'+ userId +'/female',
+          url: app.globalData.ip + '/match/'+ userId +'/female',
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -35,7 +35,7 @@ Page({
 
     getAnother: function(){
         wx.request({
-          url: 'http://192.168.1.108:4000/getAnotherHalf/' + userId,
+          url: app.globalData.ip+ '/getAnotherHalf/' + userId,
           data: {},
           method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
           // header: {}, // 设置请求的 header
@@ -76,7 +76,7 @@ Page({
 
         // 与服务器建立 socket 连接
         wx.connectSocket({
-          url: "ws://192.168.1.108:4000",
+          url: app.globalData.wsip,
         })
 
         // 监听 socket 建立成功连接后的回调  

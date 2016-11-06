@@ -33,22 +33,32 @@ Page({
     this.animation_2 = wx.createAnimation()
   },
 
-
   sendMessage:function(message){
     console.log("sending message to server" + message)
     // 发送当前用户的 ID 进行注册
     var display2 = {partner:'1',content:'hello'};
     var jsondata = JSON.stringify(display2);
+    var _self = this;
+    console.log(JSON.stringify(display2) );
 
-    console.log( JSON.stringify(display2) );
     wx.sendSocketMessage({
         data: jsondata,
         success: function(res){
-            
             console.log("success:"+res)
+            var t = _self.data.message;
+            t.push({
+              text:"succeeded",
+              me:true
+            });
         },
         fail: function(){
             console.log("failed!")
+            var t = _self.data.message;
+            t.push({
+              text:"failed",
+              me:true
+            });
+
         },
     })
   },
