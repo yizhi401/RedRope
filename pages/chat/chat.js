@@ -35,32 +35,34 @@ Page({
   },
 
   sendMessage:function(message){
-    // console.log("sending message to server" + message)
-    // // 发送当前用户的 ID 进行注册
-    // var display2 = {partner:'2',content:'hello taichen'};
-    // var jsondata = JSON.stringify(display2);
+    console.log("sending message to server" + message)
+    // 发送当前用户的 ID 进行注册
+    var display2 = {partner:'2',content:'hello taichen'};
+    var jsondata = JSON.stringify(display2);
 
-    // console.log( JSON.stringify(display2) );
-    // wx.sendSocketMessage({
-    //     data: jsondata,
-    //     success: function(res){
-    //         console.log("success:"+res)
-    //     },
-    //     fail: function(){
-    //         console.log("failed!")
-    //     },
-    // })
+    console.log( JSON.stringify(display2) );
     var _self = this;
-    var t = _self.data.message;
-    t.push({
-      img:_self.data.userInfo.avatarUrl,
-      text:this.textInput,
-      me:true
+
+    wx.sendSocketMessage({
+        data: jsondata,
+        success: function(res){
+          var t = _self.data.message;
+          t.push({
+            img:_self.data.userInfo.avatarUrl,
+            text:this.textInput,
+            me:true
+          })
+          _self.setData({
+             message:t
+          })
+          console.log(this.textInput)
+          console.log("success:"+res)
+        },
+        fail: function(){
+            console.log("failed!")
+        },
     })
-    _self.setData({
-          message:t
-    })
-    console.log(this.textInput)
+
   },
 
   bindKeyInput: function(e) {

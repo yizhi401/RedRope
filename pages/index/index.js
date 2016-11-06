@@ -17,7 +17,7 @@ Page({
           duration:60000
         });
 
-        var gender = _self.data.userInfo.gender == 1? 'male':'female';
+        var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
         userId = Math.floor(Math.random()*1000);
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
         console.log(_url);
@@ -50,6 +50,11 @@ Page({
             //tried 60 times and failed
             wx.hideToast();
           }else{
+            wx.showToast({
+              title:'正在匹配中',
+              icon:'loading',
+              duration:60000
+            });
             pollCount++;
             console.log('tried time = ' + pollCount)
             var _url = app.globalData.ip+ '/getAnotherHalf/' + userId;
@@ -67,7 +72,7 @@ Page({
                   //find a partner successfully,go chating!
                   console.log('find a partner: ' + res.data);
                   wx.hideToast();
-                  // gotoChat();
+                  gotoChat();
 
                 }
               }
