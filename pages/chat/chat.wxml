@@ -19,7 +19,7 @@
     <view class="weui-icon_success"></view>
 </scroll-view>
 
-<view class="rr-row" style="height:10%;">
+<view class="rr-row" style="height:9%;">
     <view class="rr-row-66 padding">
         <input bindinput="bindKeyInput" placeholder="请输入消息" />
     </view>
@@ -29,18 +29,9 @@
     disabled="{{disabled}}" bindtap="sendMessage" hover-class="other-button-hover">发送消息</button>
 </view>
 
-
-
 <view id="elsePanel" animation="{{animation}}">
     <view class="rr-row">
         <view class="rr-col-33" bindtap="chooseImg"><view class="text-center" style="line-height:50px">图片</view></view>
         <view class="rr-col-33" bindtap="getlocat"><view class="text-center" style="line-height:50px">位置</view></view>
-        <view class="rr-col-33" bindtap="stopvoice"><view class="text-center" style="line-height:50px">test</view></view>
-        
-    </view>
-    <view class="rr-row">
-        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
-        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
-        <view class="rr-col-33"><view class="text-center" style="line-height:50px">test</view></view>
     </view>
 </view>

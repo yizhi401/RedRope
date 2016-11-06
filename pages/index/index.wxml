@@ -13,19 +13,4 @@
     <button type="primary" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
     disabled="{{disabled}}" bindtap="findPartner" hover-class="other-button-hover">发起配对</button>
 
-    <view style="height: 10px;"></view>
-
-    <button type="default" size="default" loading="{{loading}}" plain="{{plain}}" 
-    disabled="{{disabled}}" bindtap="getAnother" hover-class="other-button-hover">进行轮询</button>
-
-    <view style="height: 10px;"></view>
-
-    <button type="default" size="default" loading="{{loading}}" plain="{{plain}}" 
-    disabled="{{disabled}}" bindtap="gotoChat" hover-class="other-button-hover">进入聊天</button>
-
-
-    <!--<text class="result">show result here</text>-->
-    <!--<view class="usermotto">
-        <text class="user-motto">{{motto}}</text>
-    </view>-->
 </view>

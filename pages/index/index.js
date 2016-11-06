@@ -3,26 +3,63 @@ var app = getApp();
 var userId = 100;
 
 Page({
+
     data:{
         motto: 'Hello Foolish WeChat App',
         userInfo:{}
     },
 
-    bindViewTap: function(){
-        wx.navigateTo({
-          url: '../chat/chat'
-        })
-    },
-
     findPartner: function(){
-        userId++;
+      var _self = this;
+        wx.showToast({
+          title:'正在匹配中',
+          icon:'loading',
+          duration:600000
+        });
+
+       var gotoChat = function (res){
+            wx.navigateTo({
+              url: '../chat/chat?name='+'haha',
+            });
+        };
+
+        var pollCount = 0;
+        var startPolling = function(){
+          if(pollCount > 60){
+            //tried 60 times and failed
+            wx.hideToast();
+          }else{
+            pollCount++;
+            wx.request({
+              url: app.globalData.ip+ '/getAnotherHalf/' + userId,
+              data: {},
+              method: 'GET',
+              success: function(res){
+                //find a partner successfully,go chating!
+                wx.hideToast();
+                console.log(res);
+                gotoChat();
+              },
+              fail: function() {
+                //failed to get a partner, try again after 1s
+                setTimeout(startPolling,1000);
+              }
+            })
+          }
+        }
+
+        var partnerGender = _self.data.userInfo.gender == 1? 'femal':'male';
+        var _url = app.globalData.ip + '/match/'+ _self.data.userInfo.nickName + '/' + partnerGender;
+        console.log(_url);
+        
         wx.request({
-          url: app.globalData.ip + '/match/'+ userId +'/female',
+          url: _url,
           data: {},
-          method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          // header: {}, // 设置请求的 header
+          method: 'GET',
           success: function(res){
+            //request mathing succeeded, keep asking the server whom we got
             console.log(res);
+            startPolling();
           },
           fail: function() {
             console.log('findPartner failed')
@@ -34,21 +71,6 @@ Page({
     },
 
     getAnother: function(){
-        wx.request({
-          url: app.globalData.ip+ '/getAnotherHalf/' + userId,
-          data: {},
-          method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
-          // header: {}, // 设置请求的 header
-          success: function(res){
-            console.log(res);
-          },
-          fail: function() {
-            console.log('getAnother failed')
-          },
-          complete: function() {
-            console.log('getAnother complete')
-          }
-        })
     },
 
     gotoChat: function(){
@@ -98,6 +120,5 @@ Page({
         wx.onSocketClose(function() {
           console.log('WebSocket连接已关闭！')
         })
-
     }
 })

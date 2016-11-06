@@ -34,9 +34,11 @@ page{
 .border-basic{
   border: 1px solid #ddd
 }
+
 .padding{
   padding:20rpx;
 }
+
 .padding-half{
   padding:10rpx;
 }

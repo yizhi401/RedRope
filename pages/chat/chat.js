@@ -16,7 +16,7 @@ Page({
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var _self = this
-    getData.getMessage(options.id,_self)
+    // getData.getMessage(options.id,_self)
     _self.setData({
       title:options.name
     })
@@ -69,13 +69,13 @@ Page({
   elseBtn:function(){
     var _self = this;
     if(_self.data.tap=="tapOff"){
-      _self.animation_2.height("55%").step();
+      _self.animation_2.height("80%").step();
       _self.setData({ animation_2: _self.animation_2.export() })
       _self.setData({
            tap:"tapOn"
       })
     }else{
-      _self.animation_2.height("90%").step();
+      _self.animation_2.height("91%").step();
       _self.setData({ animation_2: _self.animation_2.export() })
       _self.setData({
            tap:"tapOff"
