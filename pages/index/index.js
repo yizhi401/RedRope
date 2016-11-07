@@ -1,6 +1,5 @@
 var app = getApp();
-
-var userId = Math.floor(Math.random()*1000);
+var userId;
 
 Page({
 
@@ -18,7 +17,8 @@ Page({
         });
 
         var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
-        userId = Math.floor(Math.random()*1000);
+        app.globalData.mineId = Math.floor(Math.random()*1000);
+        userId = app.globalData.mineId;
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
         console.log(_url);
 
@@ -70,10 +70,10 @@ Page({
                   setTimeout(startPolling,1000);                  
                 }else{
                   //find a partner successfully,go chating!
+                  app.globalData.partnerId = res.data;
                   console.log('find a partner: ' + res.data);
                   wx.hideToast();
                   gotoChat();
-
                 }
               }
             })
@@ -83,12 +83,6 @@ Page({
     },
 
     getAnother: function(){
-    },
-
-    gotoChat: function(){
-        wx.navigateTo({
-          url: '../chat/chat?id=2&name=haha',
-        })
     },
 
     processRequest: function(xhr){
@@ -108,29 +102,29 @@ Page({
             })
         })
         
-        // 与服务器建立 socket 连接
-        wx.connectSocket({
-          url: app.globalData.wsip,
-        })
+        // // 与服务器建立 socket 连接
+        // wx.connectSocket({
+        //   url: app.globalData.wsip,
+        // })
 
-        // 监听 socket 建立成功连接后的回调  
-        wx.onSocketOpen(function() {
-          console.log('WebSocket 连接已打开！')
+        // // 监听 socket 建立成功连接后的回调  
+        // wx.onSocketOpen(function() {
+        //   console.log('WebSocket 连接已打开！')
 
-          // 发送当前用户的 ID 进行注册
-          wx.sendSocketMessage({
-            data: '1'
-          })
-        })
+        //   // 发送当前用户的 ID 进行注册
+        //   wx.sendSocketMessage({
+        //     data: '1'
+        //   })
+        // })
 
-        //监听WebSocket接受到服务器的消息事件
-        wx.onSocketMessage(function(data) {
-          console.log(data)
-        })
+        // //监听WebSocket接受到服务器的消息事件
+        // wx.onSocketMessage(function(data) {
+        //   console.log(data)
+        // })
 
-        // 监听 socket 关闭连接后的回调 
-        wx.onSocketClose(function() {
-          console.log('WebSocket连接已关闭！')
-        })
+        // // 监听 socket 关闭连接后的回调 
+        // wx.onSocketClose(function() {
+        //   console.log('WebSocket连接已关闭！')
+        // })
     }
 })

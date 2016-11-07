@@ -2,6 +2,7 @@ var app = getApp()
 var getData = require('../../utils/util.js')
 var textInput = ''
 
+
 Page({
   data:{
     text:"这是消息页面，研发中。。。",
@@ -23,17 +24,8 @@ Page({
     _self.setData({
         userInfo:app.globalData.userInfo
     })
-  },
-  onReady:function(){
-    // 页面渲染完成
-    var _self = this
-    wx.setNavigationBarTitle({
-      title: _self.data.title
-    })
-    this.animation = wx.createAnimation();
-    this.animation_2 = wx.createAnimation();
 
-    // 与服务器建立 socket 连接
+      // 与服务器建立 socket 连接
     wx.connectSocket({
       url: app.globalData.wsip,
     })
@@ -44,7 +36,7 @@ Page({
 
       // 发送当前用户的 ID 进行注册
       wx.sendSocketMessage({
-        data: '1'
+        data: app.globalData.mineId
       })
       console.log('注册消息已发送！')
     })
@@ -58,6 +50,16 @@ Page({
     wx.onSocketClose(function() {
       console.log('WebSocket连接已关闭！')
     })
+  },
+
+  onReady:function(){
+    // 页面渲染完成
+    var _self = this
+    wx.setNavigationBarTitle({
+      title: _self.data.title
+    })
+    this.animation = wx.createAnimation();
+    this.animation_2 = wx.createAnimation();
   },
 
   sendMessage:function(message){
@@ -111,27 +113,27 @@ Page({
     }
   },
 
-  chooseImg:function(){
-    var _self = this;
-    wx.chooseImage({
-      count: 1, // 默认9
-      sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-      sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function (res) {
-        // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
-        var tempFilePaths = res.tempFilePaths;
-        var t = _self.data.message;
-        t.push({
-          img:_self.data.userInfo.avatarUrl,
-          imgList:tempFilePaths,
-          me:true
-        })
-        _self.setData({
-          message:t
-        })
-      }
-    })
-  },
+  // chooseImg:function(){
+  //   var _self = this;
+  //   wx.chooseImage({
+  //     count: 1, // 默认9
+  //     sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+  //     sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+  //     success: function (res) {
+  //       // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
+  //       var tempFilePaths = res.tempFilePaths;
+  //       var t = _self.data.message;
+  //       t.push({
+  //         img:_self.data.userInfo.avatarUrl,
+  //         imgList:tempFilePaths,
+  //         me:true
+  //       })
+  //       _self.setData({
+  //         message:t
+  //       })
+  //     }
+  //   })
+  // },
 
   onShow:function(){
     // 页面显示
