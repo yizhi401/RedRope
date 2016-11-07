@@ -31,7 +31,33 @@ Page({
       title: _self.data.title
     })
     this.animation = wx.createAnimation();
-    this.animation_2 = wx.createAnimation()
+    this.animation_2 = wx.createAnimation();
+
+    // 与服务器建立 socket 连接
+    wx.connectSocket({
+      url: app.globalData.wsip,
+    })
+    
+    // 监听 socket 建立成功连接后的回调  
+    wx.onSocketOpen(function() {
+      console.log('WebSocket 连接已打开！')
+
+      // 发送当前用户的 ID 进行注册
+      wx.sendSocketMessage({
+        data: '1'
+      })
+      console.log('注册消息已发送！')
+    })
+
+    //监听WebSocket接受到服务器的消息事件
+    wx.onSocketMessage(function(data) {
+      console.log(data)
+    })
+
+    // 监听 socket 关闭连接后的回调 
+    wx.onSocketClose(function() {
+      console.log('WebSocket连接已关闭！')
+    })
   },
 
   sendMessage:function(message){

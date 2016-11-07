@@ -107,7 +107,7 @@ Page({
                 userInfo:userInfo
             })
         })
-
+        
         // 与服务器建立 socket 连接
         wx.connectSocket({
           url: app.globalData.wsip,
