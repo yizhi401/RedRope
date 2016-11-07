@@ -29,9 +29,11 @@ Page({
           success: function(res){
             //request mathing succeeded, keep asking the server whom we got
             console.log(res);
+
             if(res.data == null || res.data == "null"){
               startPolling();
             }else{
+              app.globalData.partnerId = res.data['id'];
               wx.hideToast();
               gotoChat();
             }
@@ -44,41 +46,42 @@ Page({
             });
         };
 
-        var pollCount = 0;
-        var startPolling = function(){
-          if(pollCount > 60){
-            //tried 60 times and failed
-            wx.hideToast();
-          }else{
-            wx.showToast({
-              title:'正在匹配中',
-              icon:'loading',
-              duration:60000
-            });
-            pollCount++;
-            console.log('tried time = ' + pollCount)
-            var _url = app.globalData.ip+ '/getAnotherHalf/' + userId;
-            wx.request({
-              url: _url,
-              data: {},
-              method: 'GET',
-              success: function(res){
-                console.log(res);
-                if(res.data == "null"){
-                  console.log('failed to find partner!')
-                  //failed to get a partner, try again after 1s
-                  setTimeout(startPolling,1000);                  
-                }else{
-                  //find a partner successfully,go chating!
-                  app.globalData.partnerId = res.data;
-                  console.log('find a partner: ' + res.data);
-                  wx.hideToast();
-                  gotoChat();
-                }
+      var pollCount = 0;
+
+      var startPolling = function(){
+        if(pollCount > 60){
+          //tried 60 times and failed
+          wx.hideToast();
+        }else{
+          wx.showToast({
+            title:'正在匹配中',
+            icon:'loading',
+            duration:60000
+          });
+          pollCount++;
+          console.log('tried time = ' + pollCount)
+          var _url = app.globalData.ip+ '/getAnotherHalf/' + userId;
+          wx.request({
+            url: _url,
+            data: {},
+            method: 'GET',
+            success: function(res){
+              console.log('polling success'  + res.data);
+              if(res.data == "null"){
+                console.log('failed to find partner!')
+                //failed to get a partner, try again after 1s
+                setTimeout(startPolling,1000);                  
+              }else{
+                //find a partner successfully,go chating!
+                app.globalData.partnerId = res.data;
+                console.log('find a partner: ' + res.data);
+                wx.hideToast();
+                gotoChat();
               }
-            })
-          }
+            }
+          })
         }
+      }
 
     },
 
@@ -101,30 +104,5 @@ Page({
                 userInfo:userInfo
             })
         })
-        
-        // // 与服务器建立 socket 连接
-        // wx.connectSocket({
-        //   url: app.globalData.wsip,
-        // })
-
-        // // 监听 socket 建立成功连接后的回调  
-        // wx.onSocketOpen(function() {
-        //   console.log('WebSocket 连接已打开！')
-
-        //   // 发送当前用户的 ID 进行注册
-        //   wx.sendSocketMessage({
-        //     data: '1'
-        //   })
-        // })
-
-        // //监听WebSocket接受到服务器的消息事件
-        // wx.onSocketMessage(function(data) {
-        //   console.log(data)
-        // })
-
-        // // 监听 socket 关闭连接后的回调 
-        // wx.onSocketClose(function() {
-        //   console.log('WebSocket连接已关闭！')
-        // })
     }
 })

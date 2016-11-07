@@ -64,7 +64,6 @@ Page({
 
   sendMessage:function(message){
     console.log("sending message to server" + message)
-    // 发送当前用户的 ID 进行注册
     var display2 = {partner: app.globalData.partnerId,content:this.textInput};
     var jsondata = JSON.stringify(display2);
 
