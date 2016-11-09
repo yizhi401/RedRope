@@ -5,17 +5,51 @@ Page({
 
     data:{
         motto: 'Hello Foolish WeChat App',
-        userInfo:{}
+        userInfo:{},  //wechat userinfo
+        isEnterChatHidden:false,
+        rrUserInfo:{} //redrope userinfo
     },
 
     findPartner: function(){
       var _self = this;
-        wx.showToast({
-          title:'正在匹配中',
-          icon:'loading',
-          duration:60000
-        });
 
+      var needStop = false;
+
+      var getRandomTitle = function(){
+            var titles = [
+              "正在充Q币",
+              "正在买通后台程序员",
+              "正在寻找漂亮美眉",
+              "正在购买装逼道具",
+              "正在喷洒香水",
+              "正在穿上性感内衣",
+              "正在联系张小龙",
+              "正在删除前任联系方式",
+              "正在复习撩妹课程",
+              "正在积聚洪荒之力",
+              "正在预定快捷酒店"
+            ];
+            var index = Math.floor(Math.random()* titles.length)
+            return titles[index];
+      }
+
+      var showFunnyToast = function(){
+            wx.showToast({
+                title:getRandomTitle(),
+                icon:'loading',
+                duration:5000
+                
+              });
+            if(!needStop){
+              setTimeout(function(){
+                wx.hideToast();
+                showFunnyToast();
+              },5000);
+            }
+        };
+
+      showFunnyToast();
+        
         var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
         app.globalData.mineId = Math.floor(Math.random()*1000);
         userId = app.globalData.mineId;
@@ -33,6 +67,7 @@ Page({
             if(res.data == null || res.data == "null"){
               startPolling();
             }else{
+              needStop = true;
               app.globalData.partnerId = res.data['id'];
               wx.hideToast();
               gotoChat();
@@ -46,18 +81,16 @@ Page({
             });
         };
 
+
+
       var pollCount = 0;
 
       var startPolling = function(){
         if(pollCount > 60){
           //tried 60 times and failed
+          needStop = true;
           wx.hideToast();
         }else{
-          wx.showToast({
-            title:'正在匹配中',
-            icon:'loading',
-            duration:60000
-          });
           pollCount++;
           console.log('tried time = ' + pollCount)
           var _url = app.globalData.ip+ '/getAnotherHalf/' + userId;
@@ -104,8 +137,43 @@ Page({
             console.log(userInfo);
             that.setData({
                 userInfo:userInfo
-                
             })
+            getUserId();
         })
+
+        function getUserId(){
+          var _url = app.globalData.ip+ '/getUserId/' + getUniqueString(that.data.userInfo.avatarUrl);
+          console.log(_url);
+          wx.request({
+            url: _url,
+            data: {},
+            method: 'GET',
+            success: function(res){
+              console.log(res.data);
+              // success
+            }
+          })
+        }
+        //generate a unique id according to user avatarUrl
+        function getUniqueString(avatarUrl){
+          var index = avatarUrl.lastIndexOf('/');
+          return avatarUrl.substring(index-40,index);
+        }
+
+        function getUserInfo(){
+          var _url = app.globalData.ip+ '/getUserInfo/' + that.data.rrUserInfo.userId;
+          console.log(_url);
+          wx.request({
+            url: _url,
+            data: {},
+            method: 'GET',
+            success: function(res){
+              console.log(res.data);
+              // success
+            }
+          })
+        }
+
+
     }
 })

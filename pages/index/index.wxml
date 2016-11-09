@@ -10,7 +10,12 @@
     <image class="find-partner" src="../../resources/icon.jpg" background-size="cover"/>
 
     <view style="height: 100px;"></view>
-    <button type="primary" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}" 
+    <button type="primary" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
     disabled="{{disabled}}" bindtap="findPartner" hover-class="other-button-hover">发起配对</button>
+    <view hidden="{{isEnterChatHidden}}">
+    <button type="default" size= "{{primarySize}}" loading="{{loading}}" plain="{{plain}}"
+    disabled="{{disabled}}" bindtap="findPartner" hover-class="other-button-hover">进入聊天</button>
+    </view>
+
 
 </view>
