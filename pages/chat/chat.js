@@ -44,6 +44,16 @@ Page({
     //监听WebSocket接受到服务器的消息事件
     wx.onSocketMessage(function(data) {
       console.log(data)
+      var _self = this;
+      var t = _self.data.message;
+      t.push({
+        img:_self.data.userInfo.avatarUrl,
+        text:data['content'],
+        me:false
+      })		     
+      _self.setData({
+        message:t
+     })
     })
 
     // 监听 socket 关闭连接后的回调 
@@ -69,31 +79,31 @@ Page({
 
     console.log( JSON.stringify(display2) );
     var _self = this;
+    var t = _self.data.message;
+    t.push({
+       img:_self.data.userInfo.avatarUrl,
+       text:this.textInput,
+       me:true
+    })		     
+    _self.setData({
+      message:t
+    })
 
     wx.sendSocketMessage({
         data: jsondata,
         success: function(res){
-          var t = _self.data.message;
-          t.push({
-            img:_self.data.userInfo.avatarUrl,
-            text:this.textInput,
-            me:true
-          })
-          _self.setData({
-             message:t
-          })
-          console.log(this.textInput)
           console.log("success:"+res)
         },
         fail: function(){
             console.log("failed!")
         },
     })
-
+     
   },
 
   bindKeyInput: function(e) {
     this.textInput = e.detail.value;
+    console.log(this.textInput);
   },
   elseBtn:function(){
     var _self = this;

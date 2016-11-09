@@ -67,6 +67,7 @@ Page({
             method: 'GET',
             success: function(res){
               console.log('polling success'  + res.data);
+              // res.data = "success";
               if(res.data == "null"){
                 console.log('failed to find partner!')
                 //failed to get a partner, try again after 1s
@@ -100,8 +101,10 @@ Page({
         console.log('onLoad')
         var that = this
         app.getUserInfo(function(userInfo){
+            console.log(userInfo);
             that.setData({
                 userInfo:userInfo
+                
             })
         })
     }
