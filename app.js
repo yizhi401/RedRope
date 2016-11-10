@@ -25,8 +25,7 @@ App({
     },
     globalData:{
         userInfo: null,
-        myId: null,
-        partnerId: null, 
+        rrUserInfo:{},
         ip:"https://"+"www.redrope.cc:4000",
         wsip:"wss://"+"www.redrope.cc:4000"
     }

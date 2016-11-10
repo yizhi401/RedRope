@@ -1,5 +1,4 @@
 var app = getApp();
-var userId;
 
 Page({
 
@@ -7,15 +6,9 @@ Page({
         motto: 'Hello Foolish WeChat App',
         userInfo:{},  //wechat userinfo
         isEnterChatHidden:false,
-        rrUserInfo:{} //redrope userinfo
     },
 
-    findPartner: function(){
-      var _self = this;
-
-      var needStop = false;
-
-      var getRandomTitle = function(){
+    getRandomTitle:function(){
             var titles = [
               "正在充Q币",
               "正在买通后台程序员",
@@ -31,28 +24,34 @@ Page({
             ];
             var index = Math.floor(Math.random()* titles.length)
             return titles[index];
-      }
+    },
 
-      var showFunnyToast = function(){
+    needStop : false,
+
+    showFunnyToast: function(){
+      var _self = this;
             wx.showToast({
-                title:getRandomTitle(),
+                title:_self.getRandomTitle(),
                 icon:'loading',
                 duration:5000
                 
               });
-            if(!needStop){
+            if(!_self.needStop){
               setTimeout(function(){
                 wx.hideToast();
-                showFunnyToast();
+                _self.showFunnyToast();
               },5000);
             }
-        };
+    },
 
-      showFunnyToast();
+    findPartner: function(){
+      var _self = this;
+
+      this.showFunnyToast();
         
         var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
         app.globalData.mineId = Math.floor(Math.random()*1000);
-        userId = app.globalData.mineId;
+        var userId = app.globalData.rrUserInfo.userId;
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
         console.log(_url);
 
@@ -68,7 +67,7 @@ Page({
               startPolling();
             }else{
               needStop = true;
-              app.globalData.partnerId = res.data['id'];
+              app.globalData.rrUserInfo.partnerId = res.data['id'];
               wx.hideToast();
               gotoChat();
             }
@@ -135,9 +134,7 @@ Page({
         var that = this
         app.getUserInfo(function(userInfo){
             console.log(userInfo);
-            that.setData({
-                userInfo:userInfo
-            })
+            that.data.userInfo = userInfo
             getUserId();
         })
 
@@ -150,6 +147,8 @@ Page({
             method: 'GET',
             success: function(res){
               console.log(res.data);
+              app.globalData.rrUserInfo.userId = res.data
+              getUserInfo();
               // success
             }
           })
@@ -161,7 +160,7 @@ Page({
         }
 
         function getUserInfo(){
-          var _url = app.globalData.ip+ '/getUserInfo/' + that.data.rrUserInfo.userId;
+          var _url = app.globalData.ip+ '/getUserInfo/' + app.globalData.rrUserInfo.userId;
           console.log(_url);
           wx.request({
             url: _url,
@@ -169,6 +168,15 @@ Page({
             method: 'GET',
             success: function(res){
               console.log(res.data);
+              app.globalData.rrUserInfo.status = res.data.status;
+              if(res.data.status == -1){
+                that.data.isEnterChatHidden = false;
+              }else if(res.data.status == 0){
+                that.data.isEnterChatHidden = false;
+                that.showFunnyToast();
+              }else if(res.data.status ==1){
+                that.data.isEnterChatHidden = true;
+              }
               // success
             }
           })
