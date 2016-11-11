@@ -48,33 +48,33 @@ Page({
     },
 
     findPartner: function(){
-        var _self = this;
+      var _self = this;
 
-        this.showFunnyToast();
-        
-        var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
-        app.globalData.mineId = Math.floor(Math.random()*1000);
-        var userId = app.globalData.rrUserInfo.userId;
-        var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
-        console.log(_url);
+      this.showFunnyToast();
+      
+      var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
+      app.globalData.mineId = Math.floor(Math.random()*1000);
+      var userId = app.globalData.rrUserInfo.userId;
+      var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
+      console.log(_url);
 
-        wx.request({
-          url: _url,
-          data: {},
-          method: 'GET',
-          success: function(res){
-            //request mathing succeeded, keep asking the server whom we got
-            console.log(res);
+      wx.request({
+        url: _url,
+        data: {},
+        method: 'GET',
+        success: function(res){
+          //request mathing succeeded, keep asking the server whom we got
+          console.log(res);
 
-            if(res.data == null || res.data == "null"){
-              startPolling();
-            }else{
-              app.globalData.rrUserInfo.partnerId = res.data['id'];
-              wx.hideToast();
-              _self.gotoChat();
-            }
+          if(res.data == null || res.data == "null"){
+            startPolling();
+          }else{
+            app.globalData.rrUserInfo.partnerId = res.data['id'];
+            wx.hideToast();
+            _self.gotoChat();
           }
-        })
+        }
+      })
 
       var pollCount = 0;
 
@@ -92,15 +92,14 @@ Page({
             data: {},
             method: 'GET',
             success: function(res){
-              console.log('polling success'  + res.data);
-              // res.data = "success";
               if(res.data == "null"){
                 console.log('failed to find partner!')
                 //failed to get a partner, try again after 1s
                 setTimeout(startPolling,1000);                  
               }else{
                 //find a partner successfully,go chating!
-                app.globalData.rrUserInfo.partnerId = res.data['id'];
+                console.log('polling success'  + res.data);
+                app.globalData.rrUserInfo.partnerId = res.data;
                 console.log('find a partner: ' + res.data);
                 wx.hideToast();
                 _self.gotoChat();

@@ -12,7 +12,7 @@ Page({
     animation:{},
     animation_2:{},
     tap:"tapOff",
-    
+  
   },
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
@@ -36,7 +36,7 @@ Page({
 
       // 发送当前用户的 ID 进行注册
       wx.sendSocketMessage({
-        data: app.globalData.mineId
+        data: app.globalData.rrUserInfo.userId
       })
       console.log('注册消息已发送！')
     })
@@ -44,16 +44,21 @@ Page({
     //监听WebSocket接受到服务器的消息事件
     wx.onSocketMessage(function(data) {
       console.log(data)
-      var _self = this;
+      if (data != 'success') {
+        // var arr = [];
+        // arr.push(data.data);
       var t = _self.data.message;
       t.push({
-        // img:data['avatarUrl'],
-        text:data['content'],
+      //  img:data['avatarUrl'],
+        // img:_self.data.userInfo.avatarUrl,
+        text:data.data,
         me:false
       })		     
       _self.setData({
         message:t
      })
+      }
+      
     })
 
     // 监听 socket 关闭连接后的回调 
@@ -93,7 +98,7 @@ Page({
     wx.sendSocketMessage({
         data: jsondata,
         success: function(res){
-          console.log("success:"+res)
+          console.log("success:"+ res)
         },
         fail: function(){
             console.log("failed!")
