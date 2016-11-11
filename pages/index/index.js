@@ -49,7 +49,7 @@ Page({
 
       this.showFunnyToast();
         
-        var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
+        var gender = _self.data.userInfo.gender == 2 ? 'male':'female';
         app.globalData.mineId = Math.floor(Math.random()*1000);
         var userId = app.globalData.rrUserInfo.userId;
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
@@ -66,21 +66,12 @@ Page({
             if(res.data == null || res.data == "null"){
               startPolling();
             }else{
-              needStop = true;
               app.globalData.rrUserInfo.partnerId = res.data['id'];
               wx.hideToast();
-              gotoChat();
+              _self.gotoChat();
             }
           }
         })
-
-       var gotoChat = function (res){
-            wx.navigateTo({
-              url: '../chat/chat?name='+'haha',
-            });
-        };
-
-
 
       var pollCount = 0;
 
@@ -109,7 +100,7 @@ Page({
                 app.globalData.partnerId = res.data;
                 console.log('find a partner: ' + res.data);
                 wx.hideToast();
-                gotoChat();
+                _self.gotoChat();
               }
             }
           })
@@ -117,6 +108,15 @@ Page({
       }
 
     },
+
+    gotoChat : function (res){
+            this.needStop = true;
+
+            wx.navigateTo({
+              url: '../chat/chat?name='+'haha',
+            });
+        },
+
 
     getAnother: function(){
     },
