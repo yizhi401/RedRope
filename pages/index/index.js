@@ -1,4 +1,5 @@
 var app = getApp();
+var timerId;
 
 Page({
 
@@ -8,6 +9,7 @@ Page({
         isEnterChatHidden:false,
     },
 
+    // 返回随机生成的字符串
     getRandomTitle:function(){
             var titles = [
               "正在充Q币",
@@ -29,27 +31,28 @@ Page({
     needStop : false,
 
     showFunnyToast: function(){
-      var _self = this;
-            wx.showToast({
-                title:_self.getRandomTitle(),
-                icon:'loading',
-                duration:5000
-                
-              });
-            if(!_self.needStop){
-              setTimeout(function(){
-                wx.hideToast();
-                _self.showFunnyToast();
-              },5000);
-            }
+       var _self = this;
+
+        wx.showToast({
+            title:_self.getRandomTitle(),
+            icon:'loading',
+            duration:5000
+          });
+
+        if(!_self.needStop){
+          this.timerId = setTimeout(function(){
+            wx.hideToast();
+            _self.showFunnyToast();
+          },5000);
+        }
     },
 
     findPartner: function(){
-      var _self = this;
+        var _self = this;
 
-      this.showFunnyToast();
+        this.showFunnyToast();
         
-        var gender = _self.data.userInfo.gender == 2 ? 'male':'female';
+        var gender = _self.data.userInfo.gender == 1 ? 'male':'female';
         app.globalData.mineId = Math.floor(Math.random()*1000);
         var userId = app.globalData.rrUserInfo.userId;
         var _url = app.globalData.ip + '/match/'+ userId + '/' + gender;
@@ -111,12 +114,11 @@ Page({
 
     gotoChat : function (res){
             this.needStop = true;
-
+            clearTimeout(this.timerId);
             wx.navigateTo({
               url: '../chat/chat?name='+'haha',
             });
         },
-
 
     getAnother: function(){
     },
@@ -134,7 +136,10 @@ Page({
         var that = this
         app.getUserInfo(function(userInfo){
             console.log(userInfo);
-            that.data.userInfo = userInfo
+            that.setData({
+                userInfo:userInfo
+            })
+            // that.data.userInfo = userInfo
             getUserId();
         })
 
@@ -181,7 +186,6 @@ Page({
             }
           })
         }
-
 
     }
 })

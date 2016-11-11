@@ -1,7 +1,7 @@
 var app = getApp()
 var getData = require('../../utils/util.js')
 var textInput = ''
-
+var partnerAvatarUrl = ''
 
 Page({
   data:{
@@ -19,13 +19,13 @@ Page({
     var _self = this
     // getData.getMessage(options.id,_self)
     _self.setData({
-      title:options.name
+        title:options.name
     })
     _self.setData({
         userInfo:app.globalData.userInfo
     })
 
-      // 与服务器建立 socket 连接
+    // 与服务器建立 socket 连接
     wx.connectSocket({
       url: app.globalData.wsip,
     })
@@ -47,7 +47,7 @@ Page({
       var _self = this;
       var t = _self.data.message;
       t.push({
-        img:_self.data.userInfo.avatarUrl,
+        img:data['avatarUrl'],
         text:data['content'],
         me:false
       })		     
@@ -74,7 +74,7 @@ Page({
 
   sendMessage:function(message){
     console.log("sending message to server" + message)
-    var display2 = {partner: app.globalData.partnerId,content:this.textInput};
+    var display2 = {partner: app.globalData.partnerId,content:this.textInput, avatarUrl:this.data.userInfo.avatarUrl};
     var jsondata = JSON.stringify(display2);
 
     console.log( JSON.stringify(display2) );
