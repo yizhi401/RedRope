@@ -47,7 +47,7 @@ Page({
       var _self = this;
       var t = _self.data.message;
       t.push({
-        img:data['avatarUrl'],
+        // img:data['avatarUrl'],
         text:data['content'],
         me:false
       })		     
@@ -74,8 +74,9 @@ Page({
 
   sendMessage:function(message){
     console.log("sending message to server" + message)
-    var display2 = {partner: app.globalData.partnerId,content:this.textInput, avatarUrl:this.data.userInfo.avatarUrl};
-    var jsondata = JSON.stringify(display2);
+    // var display2 = {partner: app.globalData.partnerId,content:this.textInput,avatarUrl:this.data.userInfo.avatarUrl};
+   var display2 = {partner: app.globalData.rrUserInfo.partnerId,content:this.textInput}
+   var jsondata = JSON.stringify(display2);
 
     console.log( JSON.stringify(display2) );
     var _self = this;

@@ -100,7 +100,7 @@ Page({
                 setTimeout(startPolling,1000);                  
               }else{
                 //find a partner successfully,go chating!
-                app.globalData.partnerId = res.data;
+                app.globalData.rrUserInfo.partnerId = res.data['id'];
                 console.log('find a partner: ' + res.data);
                 wx.hideToast();
                 _self.gotoChat();
