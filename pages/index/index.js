@@ -174,7 +174,7 @@ Page({
               console.log(res.data);
               app.globalData.rrUserInfo.status = res.data.status;
               var tt = {};
-              tt.userInfo = that.data.usrInfo;
+              tt.userInfo = that.data.userInfo;
               if(res.data.status == -1){
                 tt.isEnterChatHidden = false;
               }else if(res.data.status == 0){
