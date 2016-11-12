@@ -173,14 +173,17 @@ Page({
             success: function(res){
               console.log(res.data);
               app.globalData.rrUserInfo.status = res.data.status;
+              var tt = {};
+              tt.userInfo = that.data.usrInfo;
               if(res.data.status == -1){
-                that.data.isEnterChatHidden = false;
+                tt.isEnterChatHidden = false;
               }else if(res.data.status == 0){
-                that.data.isEnterChatHidden = false;
+                tt.isEnterChatHidden = false;
                 that.showFunnyToast();
               }else if(res.data.status ==1){
-                that.data.isEnterChatHidden = true;
+                tt.isEnterChatHidden = true;
               }
+              that.setData(tt);
               // success
             }
           })
