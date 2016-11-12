@@ -121,7 +121,7 @@ Page({
       var pollCount = 0;
 
       var startPolling = function(){
-        if(pollCount > 60){
+        if(pollCount > 60 && !this.needStop){
           //tried 60 times and failed
           needStop = true;
           wx.hideToast();
