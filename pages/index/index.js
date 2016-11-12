@@ -166,7 +166,7 @@ Page({
               "善变巨蟹座",
               "傲娇狮子座",
               "童心水瓶座",
-              "无为双鱼座"
+              "无为双鱼座" 
             ];
             var index = Math.floor(Math.random()* nicknames.length)
             return nicknames[index];
