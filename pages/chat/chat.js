@@ -12,6 +12,19 @@ Page({
     animation_2:{},
     tap:"tapOff",
   },
+
+ getRandomNickname:function(){
+            var nicknames = [
+              "花心射手座",
+              "执着摩羯座",
+              "激情天蝎座",
+              "性感双子座",
+              "暖暖白羊座"
+            ];
+            var index = Math.floor(Math.random()* nicknames.length)
+            return nicknames[index];
+    },
+
   onLoad:function(options){
     // 页面初始化 options为页面跳转所带来的参数
     var _self = this
@@ -90,18 +103,18 @@ Page({
     wx.sendSocketMessage({
         data: jsondata,
         success: function(res){
-          console.log("success:"+ res)
+          console.log("success:"+ res);
+        
         },
         fail: function(){
             console.log("failed!")
         },
     })
-
   },
 
   bindKeyInput: function(e) {
     this.textInput = e.detail.value;
-    console.log(this.textInput);
+    
   },
   elseBtn:function(){
     var _self = this;

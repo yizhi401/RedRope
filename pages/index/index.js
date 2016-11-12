@@ -141,7 +141,7 @@ Page({
               }else{
                 //find a partner successfully,go chating!
                 app.globalData.rrUserInfo.partnerId = res.data['id'];
-                app.globalData.rrUserInfo.partnerId = res.data['avatarUrl'];
+                app.globalData.rrUserInfo.partnerAvatarUrl = res.data['avatarUrl'];
                 console.log('find a partner: ' + res.data);
                 wx.hideToast();
                 _self.gotoChat();
@@ -153,11 +153,29 @@ Page({
 
     },
 
+    getRandomNickname:function(){
+            var nicknames = [
+              "花心射手座",
+              "执着摩羯座",
+              "激情天蝎座",
+              "性感双子座",
+              "暖暖白羊座",
+              "挑剔处女座",
+              "气质天枰座",
+              "倔强金牛座",
+              "善变巨蟹座",
+              "傲娇狮子座",
+              "童心水瓶座",
+              "无为双鱼座"
+            ];
+            var index = Math.floor(Math.random()* nicknames.length)
+            return nicknames[index];
+    },
     gotoChat : function (res){
             this.needStop = true;
             clearTimeout(this.timerId);
             wx.navigateTo({
-              url: '../chat/chat?name='+'haha',
+              url: '../chat/chat?name='+ this.getRandomNickname(),
             });
         },
 
