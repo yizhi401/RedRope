@@ -44,9 +44,9 @@ Page({
       if (res.data != 'success') {
       var t = _self.data.message;
       t.push({
-        img: app.globalData.rrUserInfo.partnerId,
+        img: app.globalData.rrUserInfo.partnerAvatarUrl,
         text:res.data,
-        me:falses
+        me:false
       })
       _self.setData({
         message:t
