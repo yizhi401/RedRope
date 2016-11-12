@@ -83,7 +83,7 @@ Page({
    var display2 = {partner: app.globalData.rrUserInfo.partnerId,content:this.textInput}
    var jsondata = JSON.stringify(display2);
 
-    console.log( JSON.stringify(display2) );
+    console.log( JSON.stringify(display2));
     var _self = this;
     var t = _self.data.message;
     t.push({

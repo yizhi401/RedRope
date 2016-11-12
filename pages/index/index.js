@@ -47,6 +47,47 @@ Page({
         }
     },
 
+    onMathClicked : function(){
+      var _self = this;
+      if(app.globalData.rrUserInfo.status == 0){
+          wx.showToast({
+            title:'正在匹配中，请稍后',
+            icon:'loading',
+            duration:3000
+          });
+      }else if (app.globalData.rrUserInfo.status == -1){
+        this.findPartner();
+      }else{
+        wx.showModal({
+          title:'提示',
+          content:'你现在已经有聊天对象，重新匹配将解除之前的关系，是否继续？',
+          success:function(res){
+            if(res.confirm){
+              _self.endChat(true);
+            }
+          }
+        });
+      }
+    },
+
+    endChat : function(shouldFindAnother){
+      var _self = this;
+      var userId = app.globalData.rrUserInfo.userId;
+      var _url = app.globalData.ip + '/endChat/'+ userId + '/' + gender;      
+      wx.request({
+        url: _url,
+        data: {},
+        method: 'GET', // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+        // header: {}, // 设置请求的 header
+        success: function(res){
+          if(shouldFindAnother){
+            _self.findPartner;
+          }
+          // success
+        }
+      })
+    },
+
     findPartner: function(){
       var _self = this;
 
@@ -70,6 +111,7 @@ Page({
             startPolling();
           }else{
             app.globalData.rrUserInfo.partnerId = res.data['id'];
+            app.globalData.rrUserInfo.partnerAvatarUrl = res.data['avatarUrl'];
             wx.hideToast();
             _self.gotoChat();
           }
@@ -98,8 +140,8 @@ Page({
                 setTimeout(startPolling,1000);                  
               }else{
                 //find a partner successfully,go chating!
-                console.log('polling success'  + res.data);
-                app.globalData.rrUserInfo.partnerId = res.data;
+                app.globalData.rrUserInfo.partnerId = res.data['id'];
+                app.globalData.rrUserInfo.partnerId = res.data['avatarUrl'];
                 console.log('find a partner: ' + res.data);
                 wx.hideToast();
                 _self.gotoChat();
@@ -143,11 +185,14 @@ Page({
         })
 
         function getUserId(){
-          var _url = app.globalData.ip+ '/getUserId/' + getUniqueString(that.data.userInfo.avatarUrl);
+//          var _url = app.globalData.ip+ '/getUserId/' + getUniqueString(that.data.userInfo.avatarUrl);
+          var _url = app.globalData.ip+ '/getUserId/';
+
           console.log(_url);
           wx.request({
             url: _url,
-            data: {},
+            data: {avatarUrl:that.data.userInfo.avatarUrl},
+//            data: {},
             method: 'GET',
             success: function(res){
               console.log(res.data);
@@ -159,8 +204,12 @@ Page({
         }
         //generate a unique id according to user avatarUrl
         function getUniqueString(avatarUrl){
-          var index = avatarUrl.lastIndexOf('/');
-          return avatarUrl.substring(index-40,index);
+          var data = {};
+          data.avatarUrl = avatarUrl;
+          return JSON.stringify(data); 
+          // var index = avatarUrl.lastIndexOf('/');
+          // return avatarUrl.substring(index-40,index);
+//          return avatarUrl;
         }
 
         function getUserInfo(){
@@ -176,12 +225,12 @@ Page({
               var tt = {};
               tt.userInfo = that.data.userInfo;
               if(res.data.status == -1){
-                tt.isEnterChatHidden = false;
+                tt.isEnterChatHidden = true;
               }else if(res.data.status == 0){
                 tt.isEnterChatHidden = false;
                 that.showFunnyToast();
               }else if(res.data.status ==1){
-                tt.isEnterChatHidden = true;
+                tt.isEnterChatHidden = false;
               }
               that.setData(tt);
               // success
